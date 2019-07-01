@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/bgone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/hk" />
+        <View
+            android:background="@drawable/bgoverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="256dp"
+            android:layout_height="157dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="24dp"
+            android:text="Just call us, and the clean will come"
+            android:textColor="#FFF"
+            android:textSize="42sp" />
+
+        <TextView
+            android:layout_width="258dp"
+            android:layout_height="62dp"
+            android:layout_below="@+id/tv1"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:text="Householder that will clean your home, smooth and quickly"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:lineSpacingExtra="8dp"/>
+
+        <FrameLayout
+            android:id="@+id/signInBtn"
+            android:layout_width="300dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="60dp"
+            android:background="@drawable/sign_in_btn"
+            android:clickable="true"
+            android:elevation="5dp"
+            android:foreground="?selectableItemBackground"
+            android:onClick="load">
+
+            <TextView
+                android:id="@+id/signInText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Next"
+                android:textColor="#ffffff" />
+
+
+        </FrameLayout>
+
+        <View
+            android:id="@+id/revealView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/design_default_color_primary"
+            android:visibility="invisible" />
+
+
+    </RelativeLayout>
+</layout>
