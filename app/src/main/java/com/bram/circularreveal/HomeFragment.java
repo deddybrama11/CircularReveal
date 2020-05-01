@@ -111,17 +111,15 @@ public class HomeFragment extends Fragment implements iUploadCallBacks {
             @Override
             public void onClick(View view) {
                 uploadFile();
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        Intent i = new Intent(getActivity().getApplicationContext(), DiagnoseActivity.class);
-                        Log.d(TAG, "onResponseeeeee3: "+kode);
-                        i.putExtra("koini", kode);
-                        startActivity(i);
-                    }
-                },500);
-
-
+//                new Timer().schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        Intent i = new Intent(getActivity().getApplicationContext(), DiagnoseActivity.class);
+//                        Log.d(TAG, "onResponseeeeee3: "+kode);
+//                        i.putExtra("koini", kode);
+//                        startActivity(i);
+//                    }
+//                },1000);
 
             }
         });
@@ -179,6 +177,10 @@ public class HomeFragment extends Fragment implements iUploadCallBacks {
                                         Log.d(TAG, "onResponseeeeee2: "+kode);
                                         dialog.dismiss();
 
+                                        Intent i = new Intent(getActivity().getApplicationContext(), DiagnoseActivity.class);
+                                        Log.d(TAG, "onResponseeeeee3: "+kode);
+                                        i.putExtra("koini", ""+response.body());
+                                        startActivity(i);
 //                                        String image_processed_link = new StringBuilder("http://192.168.1.3:5000/" +
 //                                                response.body().replace("\"", "")).toString();
 //                                        System.out.print("image_processed_link == "+image_processed_link);

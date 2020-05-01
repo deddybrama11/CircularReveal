@@ -8,23 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
+public class RecyclerViewAdapterPenyakit extends RecyclerView.Adapter<RecyclerViewAdapterPenyakit.ViewHolder>{
 
-    private static final String TAG = "RecyclerViewAdapter";
+    private static final String TAG = "RecyclerPenyakit";
     //vars
     private ArrayList<Getter> mImageUrls = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<Getter> mImageUrls) {
+    public RecyclerViewAdapterPenyakit(Context mContext, ArrayList<Getter> mImageUrls) {
         this.mImageUrls = mImageUrls;
         this.mContext = mContext;
     }
@@ -32,7 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: called");
+        Log.d(TAG, "onCreateViewHolder: ");
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem,parent,false);
         return new ViewHolder(view);
@@ -46,8 +43,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 .load("http://192.168.1.3:5000/static/"+mImageUrls.get(position).getGambar())
                 .into(holder.image);
         Log.d(TAG, "GAMBARR : "+mImageUrls.get(position).getGambar());
-
-//        holder.deskripsi.setText("test bjir");
 
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -18,7 +18,7 @@
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/hk" />
+            android:src="@drawable/tomatokebun" />
         <View
             android:background="@drawable/bgoverlay"
             android:layout_width="match_parent"
@@ -27,13 +27,13 @@
 
         <TextView
             android:id="@+id/tv1"
-            android:layout_width="256dp"
-            android:layout_height="157dp"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="23dp"
             android:layout_marginTop="24dp"
-            android:text="Just call us, and the clean will come"
+            android:text="Aplikasi diagnosa penyakit dan hama pada tanaman tomat"
             android:textColor="#FFF"
             android:textSize="42sp" />
 
@@ -44,7 +44,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="22dp"
             android:layout_marginTop="24dp"
-            android:text="Householder that will clean your home, smooth and quickly"
+            android:text="aplikasi ini diharapkan dapat meringankan tugas petani"
             android:textColor="#FFF"
             android:textSize="18sp"
             android:lineSpacingExtra="8dp"/>
@@ -56,7 +56,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
-            android:background="@drawable/sign_in_btn"
+            android:background="@drawable/button_klik_disini"
             android:clickable="true"
             android:elevation="5dp"
             android:foreground="?selectableItemBackground"
@@ -67,12 +67,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Next"
+                android:text="Tekan disini"
                 android:textColor="#ffffff" />
-
-
         </FrameLayout>
-
         <View
             android:id="@+id/revealView"
             android:layout_width="match_parent"
