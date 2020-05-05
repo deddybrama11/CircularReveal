@@ -2,7 +2,6 @@ package com.bram.circularreveal;
 
 import androidx.annotation.NonNull;
 
-import com.bram.circularreveal.Utils.iUploadCallBacks;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +20,7 @@ public class HomeActivity extends AppCompatActivity  {
         bottomNav.setOnNavigationItemSelectedListener(navlistener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+                new DeskripsiFragment()).commit();
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navlistener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,13 +30,16 @@ public class HomeActivity extends AppCompatActivity  {
 
                     switch (item.getItemId()){
                         case R.id.nav_message:
-                            selectedFragment = new MessageFragment();
+                            selectedFragment = new AboutFragment();
                             break;
                         case R.id.nav_home:
-                            selectedFragment = new HomeFragment();
+                            selectedFragment = new DiagnosaFragment();
                             break;
                         case R.id.nav_account:
-                            selectedFragment = new AccountFragment();
+                            selectedFragment = new DeskripsiFragment();
+                            break;
+                        case R.id.nav_penyakit:
+                            selectedFragment= new ListPenyakitFragment();
                             break;
                     }
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PenyakitFragment"
-    android:background="#FFF"
+    android:background="@drawable/bgtest"
     >
+
     <TextView
         android:id="@+id/listdeteksi"
         android:layout_marginTop="15dp"
@@ -14,10 +15,12 @@
         android:layout_marginBottom="20dp"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:textColor="#000"
+        android:textColor="#FFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rpenyakit"

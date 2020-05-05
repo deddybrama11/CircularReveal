@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aplikasi deteksi penyakit tdan hama pada tanaman tomat adalah aplikasi yang dapat melakukan deteksi penyakit dan hama khususnya pada tanaman tomat dengan cara pengambilan gambar atau foto. Diharapkan aplikasi ini dapat membantu user untuk melakukan pengendalian hama dan penyakit pada tanaman tomatnya."
+            android:text="Aplikasi deteksi penyakit dan hama pada tanaman tomat adalah aplikasi yang dapat melakukan deteksi penyakit dan hama khususnya pada tanaman tomat dengan cara pengambilan gambar atau foto. Diharapkan aplikasi ini dapat membantu user untuk melakukan pengendalian hama dan penyakit pada tanaman tomatnya."
             android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_marginLeft="30dp"

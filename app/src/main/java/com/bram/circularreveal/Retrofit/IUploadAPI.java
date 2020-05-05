@@ -23,6 +23,6 @@ public interface IUploadAPI {
     @GET("api/image/{img}")
     Call<List<Getter>> getImage(@Path("img") Integer kode);
 
-    @GET("api/list_penyakit/")
+    @GET("api/list_penyakit")
     Call<List<Getter>> getListPenyakit();
 }

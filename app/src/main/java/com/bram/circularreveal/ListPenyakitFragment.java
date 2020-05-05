@@ -1,18 +1,10 @@
 package com.bram.circularreveal;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,35 +13,44 @@ import com.bram.circularreveal.Retrofit.IUploadAPI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PenyakitFragment extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
+public class ListPenyakitFragment extends Fragment {
     private static final String TAG = "PenyakitFragment";
     private ArrayList<Getter> mKodePenyakit = new ArrayList<>();
     TextView namapenyakit, kodepenyakit;
-
-
-
+    RecyclerView recyclerView;
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_penyakit_fragment);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        return inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_listpenyakit, container, false);
         Log.d(TAG, "MASU AKTIFITI: ");
+        recyclerView = view.findViewById(R.id.rpenyakit);
         getData();
 
-
+        return view;
     }
-
     private void getData(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.5:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        IUploadAPI  request = retrofit.create(IUploadAPI.class);
+        IUploadAPI request = retrofit.create(IUploadAPI.class);
         Call<List<Getter>> call = request.getListPenyakit();
         call.enqueue(new Callback<List<Getter>>() {
             @Override
             public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
-                Toast.makeText(PenyakitFragment.this, "masuk", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "masuk", Toast.LENGTH_LONG).show();
                 mKodePenyakit = new ArrayList<>(response.body());
                 Log.d(TAG, "respon body mkodepenyakit: "+mKodePenyakit);
 //                mNamaPenyakit = new ArrayList<>(response.body());
@@ -58,7 +59,7 @@ public class PenyakitFragment extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Getter>> call, Throwable t) {
-                Toast.makeText(PenyakitFragment.this, "gagal gk masuk", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "gagal gk masuk", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -68,10 +69,9 @@ public class PenyakitFragment extends AppCompatActivity {
     }
     private void initRecyclerView(ArrayList<Getter> kodepenyakit){
         Log.d(TAG, "initRecyclerView:  ini recyclerview");
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false);
-        RecyclerView recyclerView = findViewById(R.id.rpenyakit);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        RecyclerViewAdapterPenyakit adapter = new RecyclerViewAdapterPenyakit(this, kodepenyakit);
+        RecyclerViewAdapterPenyakit adapter = new RecyclerViewAdapterPenyakit(getActivity(), kodepenyakit);
         recyclerView.setAdapter(adapter);
     }
 }

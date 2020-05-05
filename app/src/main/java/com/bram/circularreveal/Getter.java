@@ -15,6 +15,29 @@ public class Getter {
     }
 
 
+    @SerializedName("kode_penyakit")
+    @Expose
+    private Integer kodePenyakit;
+    @SerializedName("nama_penyakit")
+    @Expose
+    private String namaPenyakit;
+
+    public Integer getKodePenyakit() {
+        return kodePenyakit;
+    }
+
+    public void setKodePenyakit(Integer kodePenyakit) {
+        this.kodePenyakit = kodePenyakit;
+    }
+
+    public String getNamaPenyakit() {
+        return namaPenyakit;
+    }
+
+    public void setNamaPenyakit(String namaPenyakit) {
+        this.namaPenyakit = namaPenyakit;
+    }
+
     @SerializedName("penyakit")
     @Expose
     private String penyakit;
@@ -37,7 +60,7 @@ public class Getter {
     public String getPencegahan(){
         return pencegahan;
     }
-    public void setPencegahan(String pencegahan){
+    public void setPencegahan(String pencegahan)    {
         this.pencegahan = pencegahan;
     }
 
@@ -56,5 +79,6 @@ public class Getter {
     public void setDeskripsi(String penyakit) {
         this.deskripsi = deskripsi;
     }
+
 
 }

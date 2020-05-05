@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Log.d(TAG, "onBindViewHolder: called");
         Glide.with(mContext)
                 .asBitmap()
-                .load("http://192.168.1.3:5000/static/"+mImageUrls.get(position).getGambar())
+                .load("http://192.168.1.5:5000/static/"+mImageUrls.get(position).getGambar())
                 .into(holder.image);
         Log.d(TAG, "GAMBARR : "+mImageUrls.get(position).getGambar());
 

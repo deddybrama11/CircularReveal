@@ -1,28 +1,30 @@
 package com.bram.circularreveal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
-import java.util.List;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewAdapterPenyakit extends RecyclerView.Adapter<RecyclerViewAdapterPenyakit.ViewHolder>{
 
     private static final String TAG = "RecyclerPenyakit";
     //vars
-    private ArrayList<Getter> mImageUrls = new ArrayList<>();
+    private ArrayList<Getter> mNamaPenyakit = new ArrayList<>();
+    private ArrayList<Getter> mKodePenyakit = new ArrayList<>();
     private Context mContext;
 
-    public RecyclerViewAdapterPenyakit(Context mContext, ArrayList<Getter> mImageUrls) {
-        this.mImageUrls = mImageUrls;
+    public RecyclerViewAdapterPenyakit(Context mContext, ArrayList<Getter> mNamaPenyakit) {
+        this.mNamaPenyakit = mNamaPenyakit;
         this.mContext = mContext;
     }
 
@@ -31,41 +33,41 @@ public class RecyclerViewAdapterPenyakit extends RecyclerView.Adapter<RecyclerVi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: ");
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitempenyakit,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called");
-        Glide.with(mContext)
-                .asBitmap()
-                .load("http://192.168.1.3:5000/static/"+mImageUrls.get(position).getGambar())
-                .into(holder.image);
-        Log.d(TAG, "GAMBARR : "+mImageUrls.get(position).getGambar());
+        holder.nama_penyakit.setText(mNamaPenyakit.get(position).getNamaPenyakit());
 
-        holder.image.setOnClickListener(new View.OnClickListener() {
+        holder.cdview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Log.d(TAG, "onClick: clicked on an image "+mDeskrips.get(position));
-//                Toast.makeText(mContext,mDeskrips.get(position), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,mNamaPenyakit.get(position).getKodePenyakit().toString(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(mContext, DiagnoseActivity.class);
+                i.putExtra("daftar_penyakit", ""+mNamaPenyakit.get(position).getKodePenyakit().toString());
+                mContext.startActivity(i);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mImageUrls.size();
+        return mNamaPenyakit.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView image;
-        TextView deskripsi;
+        TextView nama_penyakit;
+        CardView cdview;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.gambar);
-//            deskripsi = itemView.findViewById(R.id.deskripsi);
+
+            nama_penyakit = itemView.findViewById(R.id.nama_penyakit);
+            cdview = itemView.findViewById(R.id.cdview);
 
         }
     }
 }
+

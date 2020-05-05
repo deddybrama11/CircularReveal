@@ -52,7 +52,7 @@ import retrofit2.Response;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class HomeFragment extends Fragment implements iUploadCallBacks {
+public class DiagnosaFragment extends Fragment implements iUploadCallBacks {
     private static final int PICK_FILE_REQUEST = 1000;
 
     IUploadAPI mService;

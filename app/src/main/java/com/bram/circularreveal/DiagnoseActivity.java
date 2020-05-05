@@ -32,42 +32,42 @@ public class DiagnoseActivity extends AppCompatActivity {
     //vars
 
     private ArrayList<Getter> mImageUrls = new ArrayList<>();
-    private TextView kd, deskrp, pencegahan;
+    private TextView kd, deskrp, pencegahan,tulisan;
     String kda;
-    public  String newString;
+    private  String newString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
 
-        if(savedInstanceState==null){
-            Bundle extras = getIntent().getExtras();
-            if(extras!=null){
-                newString = extras.getString("koini");
-                Toast.makeText(this,"blablablablablalblalblablalbal === "+newString, Toast.LENGTH_LONG).show();
-            }else {
-                newString="kosong";
-                Toast.makeText(this,"blablablablablalblalblablalbal === "+newString, Toast.LENGTH_LONG).show();
-            }
-        }
-
-
-
-
-        TextView thasil_diagnosa;
         kd = (TextView)findViewById(R.id.nama_penyakit);
         deskrp = (TextView)findViewById(R.id.deskripsi_diagnosa);
         pencegahan = (TextView) findViewById(R.id.solusi);
+        tulisan = findViewById(R.id.tulisanAtas);
 
+        if(savedInstanceState==null){
+            Bundle extras = getIntent().getExtras();
+            if(extras!=null){
+                if(extras.getString("koini")!= null){
+                    newString = extras.getString("koini");
+                    Log.d(TAG, "extras diagnoseactivity: "+newString);
+                    Toast.makeText(this,"blablablablablalblalblablalbal === "+newString, Toast.LENGTH_LONG).show();
+                }else if(extras.getString("daftar_penyakit")!=null) {
+                    tulisan.setText("");
+                    newString = extras.getString("daftar_penyakit");
+                    Log.d(TAG, "extras diagnoseactivity: " + newString);
+                    Toast.makeText(this, "blablablablablalblalblablalbal === " + newString, Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+        TextView thasil_diagnosa;
         getData();
-
-
     }
 
     public void getData(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.3:5000")
+                .baseUrl("http://192.168.1.5:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         IUploadAPI request = retrofit.create(IUploadAPI.class);
@@ -97,7 +97,7 @@ public class DiagnoseActivity extends AppCompatActivity {
 
     public void getImages(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.3:5000")
+                .baseUrl("http://192.168.1.5:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         IUploadAPI request =  retrofit.create(IUploadAPI.class);
