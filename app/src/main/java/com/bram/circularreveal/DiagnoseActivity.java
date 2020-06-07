@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bram.circularreveal.Retrofit.IUploadAPI;
+import com.bram.circularreveal.Retrofit.RetrofitClient;
 
 import org.w3c.dom.Text;
 
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiagnoseActivity extends AppCompatActivity {
+    IUploadAPI mService;
 
     private static final String TAG = "DiagnoseActivity";
     private RecyclerViewAdapter radapter;
@@ -36,11 +38,17 @@ public class DiagnoseActivity extends AppCompatActivity {
     String kda;
     private  String newString;
 
+    private IUploadAPI getAPIUpload(){
+        return RetrofitClient.getClientGson().create(IUploadAPI.class);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnose);
 
+        mService = getAPIUpload();
         kd = (TextView)findViewById(R.id.nama_penyakit);
         deskrp = (TextView)findViewById(R.id.deskripsi_diagnosa);
         pencegahan = (TextView) findViewById(R.id.solusi);
@@ -52,12 +60,10 @@ public class DiagnoseActivity extends AppCompatActivity {
                 if(extras.getString("koini")!= null){
                     newString = extras.getString("koini");
                     Log.d(TAG, "extras diagnoseactivity: "+newString);
-                    Toast.makeText(this,"blablablablablalblalblablalbal === "+newString, Toast.LENGTH_LONG).show();
                 }else if(extras.getString("daftar_penyakit")!=null) {
                     tulisan.setText("");
                     newString = extras.getString("daftar_penyakit");
                     Log.d(TAG, "extras diagnoseactivity: " + newString);
-                    Toast.makeText(this, "blablablablablalblalblablalbal === " + newString, Toast.LENGTH_LONG).show();
                 }
             }
         }
@@ -66,58 +72,100 @@ public class DiagnoseActivity extends AppCompatActivity {
     }
 
     public void getData(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.5:5000")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        IUploadAPI request = retrofit.create(IUploadAPI.class);
-        Call<Getter> call = request.view(Integer.parseInt(newString));
-        call.enqueue(new Callback<Getter>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<Getter> call, Response<Getter> response) {
-                if(response.isSuccessful()){
-                    getImages();
-                    Toast.makeText(DiagnoseActivity.this, "berhasil", Toast.LENGTH_SHORT).show();
-                    kd.setText(response.body().getPenyakit());
-                    deskrp.setText(response.body().getDeskripsi());
-                    pencegahan.setText(response.body().getPencegahan());
+            public void run() {
+                mService.view(Integer.parseInt(newString)).enqueue(new Callback<Getter>() {
+                    @Override
+                    public void onResponse(Call<Getter> call, Response<Getter> response) {
+                        if(response.isSuccessful()){
+                            getImages();
+                            kd.setText(response.body().getPenyakit());
+                            deskrp.setText(response.body().getDeskripsi());
+                            pencegahan.setText(response.body().getPencegahan());
 
 
-                }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Getter> call, Throwable t) {
+
+                    }
+                });
             }
+        }).start();
 
-            @Override
-            public void onFailure(Call<Getter> call, Throwable t) {
-                Toast.makeText(DiagnoseActivity.this, "gagal", Toast.LENGTH_SHORT).show();
-            }
-        });
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.1.5:5000")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        IUploadAPI request = retrofit.create(IUploadAPI.class);
+//        Call<Getter> call = request.view(Integer.parseInt(newString));
+//        call.enqueue(new Callback<Getter>() {
+//            @Override
+//            public void onResponse(Call<Getter> call, Response<Getter> response) {
+//                if(response.isSuccessful()){
+//                    getImages();
+//                    Toast.makeText(DiagnoseActivity.this, "berhasil", Toast.LENGTH_SHORT).show();
+//                    kd.setText(response.body().getPenyakit());
+//                    deskrp.setText(response.body().getDeskripsi());
+//                    pencegahan.setText(response.body().getPencegahan());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Getter> call, Throwable t) {
+//                Toast.makeText(DiagnoseActivity.this, "gagal", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
 
     public void getImages(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.5:5000")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        IUploadAPI request =  retrofit.create(IUploadAPI.class);
-        Call<List<Getter>>  call = request.getImage(Integer.parseInt(newString));
-        call.enqueue(new Callback<List<Getter>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
-                 if(response.isSuccessful()){
-                     Toast.makeText(DiagnoseActivity.this, "sukses gambar", Toast.LENGTH_SHORT).show();
-                     mImageUrls = new ArrayList<>(response.body());
-                     initRecyclerView(mImageUrls);
+            public void run() {
+                mService.getImage(Integer.parseInt(newString)).enqueue(new Callback<List<Getter>>() {
+                    @Override
+                    public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
+                        if(response.isSuccessful()){
+                            mImageUrls = new ArrayList<>(response.body());
+                            initRecyclerView(mImageUrls);
 
-                 }
-            }
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<List<Getter>> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<List<Getter>> call, Throwable t) {
-//                Toast.makeText(DiagnoseActivity.this, "gagal gambar", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        });
+        }).start();
+
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.1.5:5000")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        IUploadAPI request =  retrofit.create(IUploadAPI.class);
+//        Call<List<Getter>>  call = request.getImage(Integer.parseInt(newString));
+//        call.enqueue(new Callback<List<Getter>>() {
+//            @Override
+//            public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
+//                 if(response.isSuccessful()){
+//                     Toast.makeText(DiagnoseActivity.this, "sukses gambar", Toast.LENGTH_SHORT).show();
+//                     mImageUrls = new ArrayList<>(response.body());
+//                     initRecyclerView(mImageUrls);
+//
+//                 }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Getter>> call, Throwable t) {
+////                Toast.makeText(DiagnoseActivity.this, "gagal gambar", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
 
 //        Log.d(TAG, "initImageBitmaps: preparing bitmap");

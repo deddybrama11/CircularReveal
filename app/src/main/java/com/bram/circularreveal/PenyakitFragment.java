@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bram.circularreveal.Retrofit.IUploadAPI;
+import com.bram.circularreveal.Retrofit.RetrofitClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,11 @@ public class PenyakitFragment extends AppCompatActivity {
     private static final String TAG = "PenyakitFragment";
     private ArrayList<Getter> mKodePenyakit = new ArrayList<>();
     TextView namapenyakit, kodepenyakit;
+    IUploadAPI mService;
 
-
+    private IUploadAPI getAPIUpload() {
+        return RetrofitClient.getClientGson().create(IUploadAPI.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,28 +44,48 @@ public class PenyakitFragment extends AppCompatActivity {
     }
 
     private void getData(){
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.5:5000")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        IUploadAPI  request = retrofit.create(IUploadAPI.class);
-        Call<List<Getter>> call = request.getListPenyakit();
-        call.enqueue(new Callback<List<Getter>>() {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
-                Toast.makeText(PenyakitFragment.this, "masuk", Toast.LENGTH_LONG).show();
-                mKodePenyakit = new ArrayList<>(response.body());
-                Log.d(TAG, "respon body mkodepenyakit: "+mKodePenyakit);
+            public void run() {
+                mService.getListPenyakit().enqueue(new Callback<List<Getter>>() {
+                    @Override
+                    public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
+                        mKodePenyakit = new ArrayList<>(response.body());
+                        Log.d(TAG, "respon body mkodepenyakit: "+mKodePenyakit);
 //                mNamaPenyakit = new ArrayList<>(response.body());
-                initRecyclerView(mKodePenyakit);
-            }
+                        initRecyclerView(mKodePenyakit);
+                    }
 
-            @Override
-            public void onFailure(Call<List<Getter>> call, Throwable t) {
-                Toast.makeText(PenyakitFragment.this, "gagal gk masuk", Toast.LENGTH_LONG).show();
+                    @Override
+                    public void onFailure(Call<List<Getter>> call, Throwable t) {
 
+                    }
+                });
             }
-        });
+        }).start();
+
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://192.168.1.5:5000")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        IUploadAPI  request = retrofit.create(IUploadAPI.class);
+//        Call<List<Getter>> call = request.getListPenyakit();
+//        call.enqueue(new Callback<List<Getter>>() {
+//            @Override
+//            public void onResponse(Call<List<Getter>> call, Response<List<Getter>> response) {
+//                Toast.makeText(PenyakitFragment.this, "masuk", Toast.LENGTH_LONG).show();
+//                mKodePenyakit = new ArrayList<>(response.body());
+//                Log.d(TAG, "respon body mkodepenyakit: "+mKodePenyakit);
+////                mNamaPenyakit = new ArrayList<>(response.body());
+//                initRecyclerView(mKodePenyakit);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Getter>> call, Throwable t) {
+//                Toast.makeText(PenyakitFragment.this, "gagal gk masuk", Toast.LENGTH_LONG).show();
+//
+//            }
+//        });
 
 
 
